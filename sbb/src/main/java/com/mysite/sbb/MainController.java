@@ -11,4 +11,8 @@ public class MainController {
     public String  index(){
         return "sbb에 오신걸 환영";
     }
+    @GetMapping("/")
+    public String root(){
+        return "redirect:/question/list";
+    }
 }
