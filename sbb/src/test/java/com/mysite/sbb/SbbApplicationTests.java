@@ -4,6 +4,7 @@ import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.answer.AnswerRepository;
 import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionRepository;
+import com.mysite.sbb.question.QuestionService;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,25 +18,16 @@ import java.util.Optional;
 
 @SpringBootTest
 class SbbApplicationTests {
+	@Autowired
+	private QuestionService questionService;
 
-	@Autowired
-	private QuestionRepository questionRepository;
-	@Autowired
-	private AnswerRepository answerRepository;
 	@Test
-	@Transactional
 	void testJpa(){
-		Optional<Question> oq = this.questionRepository.findById(2L);
-		assertTrue(oq.isPresent());
-		Question q = oq.get();
-
-		List<Answer> a = q.getAnswerList();
-		assertEquals(1, a.size());
-		assertEquals("네 자동으로 생성 됩니다." , a.get(0).getContent());
- 	}
-
-	@Test
-	void contextLoads() {
+		for (int i = 1; i <= 300; i++) {
+			String subject = String.format("테스트 데이터 입니다 : [%03d]", i);
+			String content = "내용 무";
+			this.questionService.create(subject, content, null);
+		}
 	}
 
 }
